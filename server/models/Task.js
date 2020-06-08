@@ -4,10 +4,10 @@ let ObjectId = Schema.Types.ObjectId;
 
 const List = new Schema(
   {
-    color: { type: String, default: "#ccc" },
-    title: { type: String, required: true },
+    body: { type: String, required: true },
     creatorEmail: { type: String, required: true },
     boardId: { type: ObjectId, ref: "Board", required: true },
+    listId: { type: ObjectId, ref: "List", required: true },
   },
   { timestamps: true, toJSON: { virtuals: true } }
 );
