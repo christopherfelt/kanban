@@ -2,6 +2,7 @@
 node_modules
 
 authConfig.js
+token.json
 
 # local env files
 .env.local
