@@ -1,5 +1,5 @@
 <template>
-  <div class="boards">
+  <div class="boards container">
     WELCOME TO THE BOARDS!!!
     <form @submit.prevent="addBoard">
       <input
@@ -15,10 +15,17 @@
       />
       <button type="submit">Create Board</button>
     </form>
-    <div v-for="board in boards" :key="board.id">
-      <router-link :to="{ name: 'board', params: { boardId: board.id } }">{{
-        board.title
-      }}</router-link>
+    <div class="row d-flex justify-content-center mt-3">
+      <div class="col-8">
+        <ul class="list-group" v-for="board in boards" :key="board.id">
+          <router-link :to="{ name: 'board', params: { boardId: board.id } }">
+            <li class="list-group-item text-left">
+              {{ board.title }}
+              <span class="float-right"> {{ board.creationDate }} </span>
+            </li>
+          </router-link>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
