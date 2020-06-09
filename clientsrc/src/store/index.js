@@ -85,11 +85,11 @@ export default new Vuex.Store({
       commit("setActiveLists", res.data);
     },
 
-    // async getListsByBlogId({ commit, dispatch }, blogId) {
-    //   debugger;
-    //   let res = await api.get(`lists/blogId/?boardId=${blogId}`);
-    //   console.log(res.data);
-    // },
+    async getListsByBoardId({ commit, dispatch }, boardId) {
+      debugger;
+      let res = await api.get(`lists/boardId/?boardId=${boardId}`);
+      console.log(res.data);
+    },
     //#endregion
   },
 });

@@ -1,6 +1,6 @@
 <template>
-  <div class="row sticky-top">
-    <div class="col-12">
+  <div class="row sticky-top p-0">
+    <div class="col-12 p-0">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <router-link class="navbar-brand" :to="{ name: 'boards' }">Kanban Kabana</router-link>
         <button

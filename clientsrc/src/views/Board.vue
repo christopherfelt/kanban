@@ -14,7 +14,7 @@
       </button>
       <!-- TODO ADD A COLOR SELECTOR AND ALL THAT JAZZ -->
     </form>
-    <ListComponent />
+    <ListComponent v-for="list in activeLists" :key="list.id" :list="list" />
   </div>
 </template>
 
@@ -23,7 +23,7 @@ import ListComponent from "../components/ListComponent.vue";
 export default {
   mounted() {
     this.$store.dispatch("getBoardById", this.$route.params.id);
-    this.$store.dispatch("getListsByBlogId", this.$route.params.id);
+    this.$store.dispatch("getListsByBoardId", this.$route.params.id);
   },
 
   data() {
@@ -34,6 +34,9 @@ export default {
   computed: {
     activeBoard() {
       return this.$store.state.activeBoard;
+    },
+    activeLists() {
+      return this.$store.state.activeLists;
     }
   },
   methods: {

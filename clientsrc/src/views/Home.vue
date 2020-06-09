@@ -1,28 +1,30 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <img
-          class="p-absolute img-full p-absolute"
-          src="https://images.pexels.com/photos/3810756/pexels-photo-3810756.jpeg?auto=compress&cs=tinysrgb&dpr=1"
-          alt
-        />
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12 p-0">
+          <img
+            class="p-absolute img-full"
+            src="https://images.pexels.com/photos/3810756/pexels-photo-3810756.jpeg?auto=compress&cs=tinysrgb&dpr=1"
+            alt
+          />
+        </div>
       </div>
-    </div>
-    <div class="home row">
-      <div class="col-12 col-lg-10 m-auto mt-5">
-        <div class="shadow welcome-card m-3 mt-70 p-1 b-radius">
-          <div class="mt-1">
-            <h1 class="text-primary pl-lg-5 p-2">Welcome to Kanban Kabana</h1>
-            <hr />
-          </div>
-          <p class="p-1 m-1">
-            If you need to get a team ready for a project you have come to the right place. We are all about keeping
-            the endless stream of todos in order.
-          </p>
+      <div class="home row">
+        <div class="col-12 col-lg-10 m-auto mt-5">
+          <div class="shadow welcome-card m-3 mt-70 p-1 b-radius">
+            <div class="mt-1">
+              <h1 class="text-primary pl-lg-5 p-2">Welcome to Kanban Kabana</h1>
+              <hr />
+            </div>
+            <p class="p-1 m-1">
+              If you need to get a team ready for a project you have come to the right place. We are all about keeping
+              the endless stream of todos in order.
+            </p>
 
-          <div class="p-relative d-flex justify-content-center p-3">
-            <button class="btn btn-primary btn-lg push-down shadow" @click="login">Get Started</button>
+            <div class="p-relative d-flex justify-content-center p-3">
+              <button class="btn btn-primary btn-lg push-down shadow" @click="login">Get Started</button>
+            </div>
           </div>
         </div>
       </div>
@@ -59,14 +61,20 @@ export default {
 </script>
 
 <style >
+.action {
+  transition: 0.4s;
+  cursor: pointer;
+}
 .b-radius {
   border-radius: 8px;
 }
 .img-full {
   z-index: -1;
-  margin: -15px 0px;
   overflow: hidden;
-  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  min-width: 100%;
+  max-width: 100%;
 }
 .push-up {
   position: absolute;

@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="container-fluid">
     <navbar />
     <router-view />
   </div>
@@ -38,7 +38,6 @@ export default {
 }
 
 #nav {
-  padding: 30px;
 }
 
 #nav a {
