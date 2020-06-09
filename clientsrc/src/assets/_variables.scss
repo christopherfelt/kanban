@@ -1,14 +1,14 @@
-$body-bg: #f3f3f0;
+$body-bg: #e7e7d5;
 
-$primary: #007BFF;
-$secondary: #6c757d;
-$danger: #DC3545;
-$success: #28A745;
-$warning: #FFC107;
-$info: #17A2B8;
-$light: #F8F9FA;
-$dark: #343A40;
-$white: #FFFFFF;
+$primary: #6fadf0;
+$secondary: #f6eaa1;
+$danger: #dc3545;
+$success: #28a745;
+$warning: #ffc107;
+$info: #17a2b8;
+$light: #f8f9fa;
+$dark: #343a40;
+$white: #ffffff;
 
 $blue: blue;
 $indigo: indigo;
@@ -25,19 +25,19 @@ $gray: gray;
 $gray-dark: darkslategray;
 
 $colors: (
-"blue": $blue,
-"indigo": $indigo,
-"purple": $purple,
-"pink": $pink,
-"red": $red,
-"orange": $orange,
-"yellow": $yellow,
-"green": $green,
-"teal": $teal,
-"cyan": $cyan,
-"white": $white,
-"gray": $gray,
-"gray-dark": $gray-dark
+  "blue": $blue,
+  "indigo": $indigo,
+  "purple": $purple,
+  "pink": $pink,
+  "red": $red,
+  "orange": $orange,
+  "yellow": $yellow,
+  "green": $green,
+  "teal": $teal,
+  "cyan": $cyan,
+  "white": $white,
+  "gray": $gray,
+  "gray-dark": $gray-dark,
 ) !default;
 
 // .btn-primary {

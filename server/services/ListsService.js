@@ -2,6 +2,9 @@ import { dbContext } from "../db/DbContext";
 import { BadRequest } from "../utils/Errors";
 
 class ListsService {
+  // async getByBlogId(query = {}) {
+  //   return await dbContext.Lists.find(query);
+  // }
   async getAll(userEmail) {
     return await dbContext.Lists.find({ creatorEmail: userEmail }).populate(
       "creator",

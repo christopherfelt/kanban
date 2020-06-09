@@ -9,13 +9,20 @@ export class ListsController extends BaseController {
     super("api/lists");
     this.router
       .use(auth0provider.getAuthorizedUserInfo)
+      // .get("/blogId")
       .get("", this.getAll)
       .get("/:id", this.getById)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete);
   }
-
+  // async getByBlogId(req, res, next) {
+  //   try {
+  //     let data = await listsService.getByBlogId(req.query);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
   async getAll(req, res, next) {
     try {
       //only gets boards by user who is logged in

@@ -23,6 +23,10 @@ export default new Vuex.Store({
     activeBoard: {},
   },
   mutations: {
+    activeBoard(state, board) {
+      state.activeBoard = board;
+      console.log(state.activeBoard.id);
+    },
     setUser(state, user) {
       state.user = user;
     },
@@ -69,10 +73,23 @@ export default new Vuex.Store({
         dispatch("getBoards");
       });
     },
+    async getBoardById({ commit, dispatch }, id) {
+      let data = await api.get(`boards/${id}`);
+      commit("activeBoard", data.data);
+    },
     //#endregion
 
     //#region -- LISTS --
+    async createList({ commit, dispatch }, data) {
+      let res = await api.post("lists", data);
+      commit("setActiveLists", res.data);
+    },
 
+    // async getListsByBlogId({ commit, dispatch }, blogId) {
+    //   debugger;
+    //   let res = await api.get(`lists/blogId/?boardId=${blogId}`);
+    //   console.log(res.data);
+    // },
     //#endregion
   },
 });
