@@ -87,12 +87,29 @@ export default new Vuex.Store({
       let data = await api.get(`boards/${id}`);
       commit("activeBoard", data.data);
     },
+    async deleteBoard({ commit, dispatch }, id) {
+      try {
+        await api.delete(`boards/${id}`);
+        dispatch("getBoards");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async editBoard({ commit, dispatch }, data) {
+      try {
+        let res = await api.put(`boards/${data.boardId}`, data.update);
+        dispatch("getBoards");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     //#endregion
 
     //#region -- LISTS --
     async createList({ commit, dispatch }, data) {
       let res = await api.post("lists", data);
-      commit("setActiveLists", res.data);
+      dispatch("getListsByBoardId", data.boardId);
     },
 
     async getListsByBoardId({ commit, dispatch }, boardId) {
@@ -103,6 +120,26 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
+
+    async editList({ commit, dispatch }, data) {
+      try {
+        let res = await api.put(`lists/${data.listId}`, data.update);
+        dispatch("getListsByBoardId", data.boardId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteList({ commit, dispatch }, data) {
+      console.log("delorting list");
+
+      try {
+        let res = await api.delete(`lists/${data.listId}`);
+        dispatch("getListsByBoardId", data.boardId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     //#endregion
 
     //#region -- TASKS --
@@ -111,6 +148,15 @@ export default new Vuex.Store({
         let res = await api.get(`lists/${listId}/tasks`);
         let taskObj = { id: listId, data: res.data };
         commit("setActiveTasks", taskObj);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async addTask({ commit, dispatch }, data) {
+      try {
+        let res = await api.post("tasks", data);
+        console.log(res.data);
+        dispatch("getTaskByListId", res.data.listId);
       } catch (error) {
         console.error(error);
       }

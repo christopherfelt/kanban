@@ -2,13 +2,11 @@
   <div class="board">
     <h1>{{ activeBoard.title }}</h1>
     <p>{{ activeBoard.description }}</p>
-    <button class="btn btn-success">
+    <!-- <button class="btn btn-success">
       <i title="add list" class="fas fa-plus"></i>
-    </button>
+    </button>-->
     <form @submit.prevent="createList">
       <input v-model="newList.title" type="text" placeholder="list title" />
-      <!-- NOTE ONLY NEED ONE INPUT...... NOW THAT I THINK ABOUT IT -->
-      <input v-model="newList.body" type="text" placeholder="list body" />
       <button type="submit" class="btn btn-success">
         <i class="fas fa-plus"></i>
       </button>
@@ -30,7 +28,7 @@ export default {
 
   data() {
     return {
-      newList: {},
+      newList: {}
     };
   },
   name: "board",
@@ -41,7 +39,7 @@ export default {
     },
     activeLists() {
       return this.$store.state.activeLists;
-    },
+    }
   },
   methods: {
     createList() {
@@ -49,14 +47,13 @@ export default {
         boardId: this.activeBoard.id,
         title: this.newList.title,
         body: this.newList.body,
-        color: "#2255aa",
+        color: "#2255aa"
       };
-
       this.$store.dispatch("createList", data);
-    },
+    }
   },
   components: {
-    ListComponent,
-  },
+    ListComponent
+  }
 };
 </script>
