@@ -21,12 +21,22 @@ export default new Vuex.Store({
     user: {},
     boards: [],
     activeBoard: {},
+    activeLists: [],
+    activeTasks: [],
   },
   mutations: {
     activeBoard(state, board) {
       state.activeBoard = board;
       console.log(state.activeBoard.id);
     },
+    setActiveLists(state, lists) {
+      state.activeLists = lists;
+    },
+
+    setActiveTasks(state, tasks) {
+      Vue.set(state.activeTasks, tasks.id, tasks.data);
+    },
+
     setUser(state, user) {
       state.user = user;
     },
@@ -86,9 +96,24 @@ export default new Vuex.Store({
     },
 
     async getListsByBoardId({ commit, dispatch }, boardId) {
-      debugger;
-      let res = await api.get(`lists/boardId/?boardId=${boardId}`);
-      console.log(res.data);
+      try {
+        let res = await api.get(`lists/boardId/?boardId=${boardId}`);
+        commit("setActiveLists", res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    //#endregion
+
+    //#region -- TASKS --
+    async getTaskByListId({ commit, dispatch }, listId) {
+      try {
+        let res = await api.get(`lists/${listId}/tasks`);
+        let taskObj = { id: listId, data: res.data };
+        commit("setActiveTasks", taskObj);
+      } catch (error) {
+        console.error(error);
+      }
     },
     //#endregion
   },
