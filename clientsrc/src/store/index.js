@@ -152,6 +152,7 @@ export default new Vuex.Store({
 
     async getListsByBoardId({ commit, dispatch }, boardId) {
       try {
+        console.log("made it get list by board id");
         let res = await api.get(`lists/boardId/?boardId=${boardId}`);
         commit("setActiveLists", res.data);
       } catch (error) {
@@ -196,12 +197,43 @@ export default new Vuex.Store({
     async addTask({ commit, dispatch }, data) {
       try {
         let res = await api.post("tasks", data);
-        console.log(res.data);
         dispatch("getTaskByListId", res.data.listId);
       } catch (error) {
         console.error(error);
       }
     },
+
+    async moveTaskToNewList({ commit, dispatch }, data) {
+      try {
+        let res = await api.put(`tasks/${data.taskId}`, data.taskData);
+        console.log("board id in store", data.boardId);
+        // router.push({ name: "board", params: { boardId: data.boardId } });
+        // dispatch("getListByObjectId", data.boardId);
+        dispatch("getTaskByListId", data.oldListId);
+        dispatch("getTaskByListId", data.newListId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async deleteTask({ commit, dispatch }, data) {
+      try {
+        let res = await api.delete(`tasks/${data.id}`);
+        dispatch("getTaskByListId", data.listId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async editTask({ commit, dispatch }, data) {
+      try {
+        let res = await api.put(`tasks/${data.id}`, data);
+        dispatch("getTaskByListId", data.listId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     //#endregion
 
     //#region  --Comments--
@@ -214,6 +246,25 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
+
+    async addComment({ commit, dispatch }, data) {
+      try {
+        let res = await api.post("comments", data);
+        dispatch("getCommentsByTaskId", data.taskId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async deleteComment({ commit, dispatch }, data) {
+      try {
+        let res = await api.delete(`comments/${data.id}`);
+        dispatch("getCommentsByTaskId", data.taskId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     //#endregion
   },
 });
