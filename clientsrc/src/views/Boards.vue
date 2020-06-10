@@ -23,10 +23,7 @@
         </div>
       </div>
 
-      <!--  -->
-
       <div class="row py-4 pt-4 boards-card shadow">
-        <!--  -->
         <div class="col-11 m-auto">
           <h3 class="text-primary m-1">Boards</h3>
           <button @click="toggleNewBoardForm" title="Create new board" class="btn btn-success m-1">
@@ -58,10 +55,11 @@
             </div>
           </form>
         </div>
+
         <div class="col-11 col-md-9 col-lg-8 m-auto p-2">
           <div class="bg-warning p-1 m-2" v-for="board in boards" :key="board.id">
             <div class="d-flex justify-content-between align-items-center">
-              <h5 class="w-100 m-1 p-1 action text-light">{{ board.title}}</h5>showEditBoardForm
+              <h5 class="w-100 m-1 p-1 action text-light">{{ board.title}}</h5>
               <!-- show and hide form for edit board name/description -->
               <i
                 @click="toggleEditBoardForm(board.id)"
@@ -79,28 +77,39 @@
                 <p class="w-100 m-1 p-1 text-dark">{{ board.description }}</p>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- not finished yet edit pop up -->
-      <div v-if="true" class="row">
-        <div class="col-12 d-flex justify-content-center">
-          <div class="edit-box shadow bg-warning">
-            <div class="d-flex flex-column align-items-center">
-              <div class="pt-2 mt-2">
-                <input class="p-1 m-1" type="text" placeholder="Board Title..." />
-                <br />
-                <input class="p-1 m-1" type="text" placeholder="Board Description...." />
-              </div>
-              <div class="mt-2 pt-2">
-                <button class="m-2 btn btn-success">Save</button>
-                <button @click="toggleEditBoardForm" class="m-2 btn btn-danger">Cancel</button>
+            <!-- not finished yet edit pop up -->
+            <div
+              v-if="isEditBoardFormShowing && board.id == boardEdit"
+              class="edit-box shadow bg-warning"
+            >
+              <div class="d-flex flex-column align-items-center">
+                <form @submit="editBoard(board.id)">
+                  <div class="pt-2 mt-2">
+                    <input
+                      v-model="editForm.title"
+                      class="p-1 m-1"
+                      type="text"
+                      placeholder="Board Title..."
+                    />
+                    <br />
+                    <input
+                      v-model="editForm.description"
+                      class="p-1 m-1"
+                      type="text"
+                      placeholder="Board Description...."
+                    />
+                  </div>
+                  <div class="mt-2 pt-2">
+                    <button type="submit" class="m-2 btn btn-success">Save</button>
+                    <button @click="toggleEditBoardForm" class="m-2 btn btn-danger">Cancel</button>
+                  </div>
+                </form>
               </div>
             </div>
+            <!-- end section -->
           </div>
         </div>
       </div>
-      <!-- end section -->
     </div>
   </div>
 </template>
@@ -118,15 +127,18 @@ export default {
         title: "",
         description: ""
       },
-      editForm: {}
+      editForm: {},
+      editBoardFormShowing: false,
+      boardEdit: null
     };
   },
 
   computed: {
-    _showEditBoardForm_() {
-      console.log(this.$store._showEditBoardForm);
+    isEditBoardFormShowing() {
+      if (this.boardEdit)
+        return this.$store.state.showEditBoardForm[this.boardEdit];
 
-      return this.$store._showEditBoardForm;
+      // return this.$store.showEditBoardForm[this.boardsEdit.id];
     },
     showNewBordForm() {
       return this.$store.state.showNewBoardForm;
@@ -139,9 +151,13 @@ export default {
     }
   },
   methods: {
-    toggleEditBoardForm() {
-      this.$store.dispatch("toggleEditBoardForm");
-      console.log("toggleing the edit form");
+    toggleEditBoardForm(boardId) {
+      let data = {
+        boardId: boardId,
+        update: !this.editBoardFormShowing
+      };
+      this.$store.dispatch("toggleEditBoardForm", data);
+      this.boardEdit = boardId;
     },
     toggleNewBoardForm() {
       this.$store.dispatch("toggleNewBoardForm");
@@ -158,7 +174,9 @@ export default {
           description: this.editForm.description
         }
       };
+
       this.$store.dispatch("editBoard", data);
+      this.toggleEditBoardForm();
     },
     //route user to the board page view by board id
     routeToBoard(id) {
@@ -175,13 +193,6 @@ export default {
 
 
 <style>
-.edit-box {
-  border-radius: 8px;
-  height: 25vh;
-  width: 80vw;
-  position: fixed;
-  top: 50vh;
-}
 div .dashboard-header {
   z-index: 1;
   background: rgba(0, 0, 0, 0.75);

@@ -24,21 +24,24 @@ export default new Vuex.Store({
     activeLists: [],
     activeTasks: [],
     activeComments: [],
-    showEditBoardForm: false,
     showNewBoardForm: false,
-    // NOT IMPLEMENTED YET
+    showEditBoardForm: [],
     showNewListForm: false,
+    // NOT IMPLEMENTED YET
     showEditListForm: false,
-    showNewTaskForm: false,
+    showNewTaskForm: [],
     showEditTaskForm: false,
     // NOT IMPLEMENTED YET
   },
   mutations: {
+    showNewTaskForm(state, data) {
+      Vue.set(state.showNewTaskForm, data.listId, data.update);
+    },
+    toggleCreateListForm(state) {
+      state.showNewListForm = !state.showNewListForm;
+    },
     toggleEditBoardForm(state, data) {
-      console.log(
-        `toggleing the edit form it is now:: ${state.showEditBoardForm}`
-      );
-      state.showEditBoardForm = !state.showEditBoardForm;
+      Vue.set(state.showEditBoardForm, data.boardId, data.update);
     },
     toggleNewBoardForm(state, data) {
       state.showNewBoardForm = !state.showNewBoardForm;
@@ -84,9 +87,8 @@ export default new Vuex.Store({
     //#endregion
 
     //#region -- BOARDS --
-    toggleEditBoardForm({ commit, dispatch }) {
-      console.log("action toggleing the edit form");
-      commit("toggleEditBoardForm");
+    toggleEditBoardForm({ commit, dispatch }, data) {
+      commit("toggleEditBoardForm", data);
     },
     toggleNewBoardForm({ commit, dispatch }) {
       commit("toggleNewBoardForm");
@@ -125,8 +127,12 @@ export default new Vuex.Store({
       }
     },
     async editBoard({ commit, dispatch }, data) {
+      console.log("incoming data : " + data.update.title);
+
       try {
         let res = await api.put(`boards/${data.boardId}`, data.update);
+        console.log("data from api res: " + res.data.title);
+
         dispatch("getBoards");
       } catch (error) {
         console.error(error);
@@ -136,6 +142,9 @@ export default new Vuex.Store({
     //#endregion
 
     //#region -- LISTS --
+    toggleCreateListForm({ commit }) {
+      commit("toggleCreateListForm");
+    },
     async createList({ commit, dispatch }, data) {
       let res = await api.post("lists", data);
       dispatch("getListsByBoardId", data.boardId);
@@ -172,6 +181,9 @@ export default new Vuex.Store({
     //#endregion
 
     //#region -- TASKS --
+    showNewTaskForm({ commit, dispatch }, data) {
+      commit("showNewTaskForm", data);
+    },
     async getTaskByListId({ commit, dispatch }, listId) {
       try {
         let res = await api.get(`lists/${listId}/tasks`);

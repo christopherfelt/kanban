@@ -95,4 +95,52 @@ export default {
 .mt-70 {
   margin-top: 20vh !important;
 }
+
+@keyframes slide-left {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 50%;
+  }
+}
+@keyframes slide-right {
+  0% {
+    left: 0rem;
+    width: 0%;
+  }
+  100% {
+    left: 2rem;
+    width: 75%;
+  }
+}
+.slide-left {
+  width: 50%;
+  top: 1.6rem;
+  right: 4.5rem;
+  animation-name: slide-left;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+}
+.slide-right {
+  width: 75%;
+  bottom: 0rem;
+  left: 2rem;
+
+  animation-name: slide-right;
+
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+}
+
+.plus-btn {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+.plus-btn-sm {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
 </style>
