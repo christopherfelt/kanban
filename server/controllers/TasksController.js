@@ -2,6 +2,7 @@ import express from "express";
 import BaseController from "../utils/BaseController";
 import auth0provider from "@bcwdev/auth0provider";
 import { tasksService } from "../services/TasksService";
+import { commentsService } from "../services/CommentsService";
 
 //PUBLIC
 export class TasksController extends BaseController {
@@ -11,6 +12,7 @@ export class TasksController extends BaseController {
       .use(auth0provider.getAuthorizedUserInfo)
       .get("", this.getAll)
       .get("/:id", this.getById)
+      .get("/:id/comments", this.getCommentsByTaskId)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete);
@@ -29,6 +31,18 @@ export class TasksController extends BaseController {
   async getById(req, res, next) {
     try {
       let data = await tasksService.getById(req.params.id, req.userInfo.email);
+      return res.send(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getCommentsByTaskId(req, res, next) {
+    try {
+      let data = await commentsService.getCommentsByTaskId(
+        req.params.id,
+        req.userInfo.email
+      );
       return res.send(data);
     } catch (error) {
       next(error);
