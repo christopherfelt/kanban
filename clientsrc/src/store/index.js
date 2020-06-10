@@ -24,11 +24,27 @@ export default new Vuex.Store({
     activeLists: [],
     activeTasks: [],
     activeComments: [],
+    showEditBoardForm: false,
+    showNewBoardForm: false,
+    // NOT IMPLEMENTED YET
+    showNewListForm: false,
+    showEditListForm: false,
+    showNewTaskForm: false,
+    showEditTaskForm: false,
+    // NOT IMPLEMENTED YET
   },
   mutations: {
+    toggleEditBoardForm(state, data) {
+      console.log(
+        `toggleing the edit form it is now:: ${state.showEditBoardForm}`
+      );
+      state.showEditBoardForm = !state.showEditBoardForm;
+    },
+    toggleNewBoardForm(state, data) {
+      state.showNewBoardForm = !state.showNewBoardForm;
+    },
     activeBoard(state, board) {
       state.activeBoard = board;
-      console.log(state.activeBoard.id);
     },
     setActiveLists(state, lists) {
       state.activeLists = lists;
@@ -68,6 +84,14 @@ export default new Vuex.Store({
     //#endregion
 
     //#region -- BOARDS --
+    toggleEditBoardForm({ commit, dispatch }) {
+      console.log("action toggleing the edit form");
+      commit("toggleEditBoardForm");
+    },
+    toggleNewBoardForm({ commit, dispatch }) {
+      commit("toggleNewBoardForm");
+    },
+
     getBoards({ commit, dispatch }) {
       api.get("boards").then((res) => {
         const dateOptions = {
