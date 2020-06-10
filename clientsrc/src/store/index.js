@@ -23,6 +23,7 @@ export default new Vuex.Store({
     activeBoard: {},
     activeLists: [],
     activeTasks: [],
+    activeComments: [],
   },
   mutations: {
     activeBoard(state, board) {
@@ -35,6 +36,10 @@ export default new Vuex.Store({
 
     setActiveTasks(state, tasks) {
       Vue.set(state.activeTasks, tasks.id, tasks.data);
+    },
+
+    setActiveComments(state, comments) {
+      Vue.set(state.activeComments, comments.id, comments.data);
     },
 
     setUser(state, user) {
@@ -157,6 +162,18 @@ export default new Vuex.Store({
         let res = await api.post("tasks", data);
         console.log(res.data);
         dispatch("getTaskByListId", res.data.listId);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    //#endregion
+
+    //#region  --Comments--
+    async getCommentsByTaskId({ commit, dispatch }, taskId) {
+      try {
+        let res = await api.get(`tasks/${taskId}/comments`);
+        let commentObj = { id: taskId, data: res.data };
+        commit("setActiveComments", commentObj);
       } catch (error) {
         console.error(error);
       }
