@@ -2,6 +2,17 @@ import { dbContext } from "../db/DbContext";
 import { BadRequest } from "../utils/Errors";
 
 class CommentsService {
+  async getCommentsByTaskId(taskId, userEmail) {
+    let data = await dbContext.Comments.find({
+      taskId: taskId,
+      creatorEmail: userEmail,
+    });
+    if (!data) {
+      throw new BadRequest("Invalid ID or you do own this task");
+    }
+    return data;
+  }
+
   async getAll(userEmail) {
     return await dbContext.Comments.find({ creatorEmail: userEmail }).populate(
       "creator",
