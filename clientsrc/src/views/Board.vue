@@ -13,7 +13,7 @@
       <div class="col-12 p-0">
         <div class="d-flex justify-content-between dashboard-header">
           <div>
-            <h1 class="text-light  p-3 pl-3">{{ activeBoard.title }}</h1>
+            <h1 class="text-light p-3 pl-3">{{ activeBoard.title }}</h1>
           </div>
 
           <div class="mt-3 m-3">
@@ -28,10 +28,7 @@
               </form>
             </div>
             <div>
-              <button
-                @click="toggleCreateListForm"
-                class="btn plus-btn btn-success"
-              >
+              <button @click="toggleCreateListForm" class="btn plus-btn btn-success">
                 <i title="add list" class="fas fa-plus"></i>
               </button>
             </div>
@@ -49,13 +46,13 @@
 import ListComponent from "../components/ListComponent.vue";
 export default {
   mounted() {
-    this.$store.dispatch("getBoardById", this.$route.params.id);
-    this.$store.dispatch("getListsByBoardId", this.$route.params.id);
+    this.$store.dispatch("getBoardById", this.$route.params.boardId);
+    this.$store.dispatch("getListsByBoardId", this.$route.params.boardId);
   },
 
   data() {
     return {
-      newList: {},
+      newList: {}
     };
   },
   name: "board",
@@ -69,7 +66,7 @@ export default {
     },
     activeLists() {
       return this.$store.state.activeLists;
-    },
+    }
   },
   methods: {
     toggleCreateListForm() {
@@ -80,14 +77,14 @@ export default {
         boardId: this.activeBoard.id,
         title: this.newList.title,
         body: this.newList.body,
-        color: "#2255aa",
+        color: "#2255aa"
       };
       this.$store.dispatch("createList", data);
-    },
+    }
   },
   components: {
-    ListComponent,
-  },
+    ListComponent
+  }
 };
 </script>
 
