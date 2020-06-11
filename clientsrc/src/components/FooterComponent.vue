@@ -1,24 +1,30 @@
 <template>
   <div class="row fixed-bottom">
     <div class="col-12 bg-light pt-1 mt-3 text-dark text-center">
-      <h5 class="p-0 m-0 d-inline">
+      <p class="p-0 m-0 d-inline">
         Made with love by
-        <br />Chris
-        <a href="#">
+        Chris
+        <a target="_blank" href="#">
           <i class="fab fa-linkedin"></i>
         </a>
-        <a href="#" class="text-dark">
+        <a target="_blank" href="#" class="text-dark">
           <i class="fab fa-github text-dark"></i>
         </a>
         |
         Justin
-        <a href="#">
+        <a
+          target="_blank"
+          href="https://www.linkedin.com/in/justin-gates-a43537181/"
+        >
           <i class="fab fa-linkedin"></i>
         </a>
-        <a href="#" class="text-dark">
+        <a target="_blank" href="https://github.com/settings/profile" class="text-dark">
           <i class="fab fa-github"></i>
         </a>
-      </h5>
+      </p>
+      <small class="p-0 m-0">
+        <a class target="_blank" href="https://github.com/christopherfelt/kanban">view project Repo</a>
+      </small>
     </div>
   </div>
 </template>
