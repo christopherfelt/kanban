@@ -86,9 +86,8 @@ export default new Vuex.Store({
     //#region utilities section
     async addCollaborator({ commit, dispatch }, data) {
       console.log("board id is: " + data.boardId);
-
       try {
-        let res = await api.put(`boards/${data.boardId}`, data.eMail);
+        let res = await api.put(`boards/${data.boardId}/addcollaborator`, data);
         console.log(res.data);
       } catch (error) {
         console.error(error);

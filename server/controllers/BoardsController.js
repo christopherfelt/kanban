@@ -13,6 +13,7 @@ export class BoardsController extends BaseController {
       .get("/:id", this.getById)
       .post("", this.create)
       .put("/:id", this.edit)
+      .put("/:id/addcollaborator", this.addCollaborator)
       .delete("/:id", this.delete);
   }
 
@@ -51,6 +52,19 @@ export class BoardsController extends BaseController {
 
     try {
       let data = await boardService.edit(
+        req.params.id,
+        req.userInfo.email,
+        req.body
+      );
+      return res.send(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async addCollaborator(req, res, next) {
+    try {
+      let data = await boardService.addCollaborator(
         req.params.id,
         req.userInfo.email,
         req.body
