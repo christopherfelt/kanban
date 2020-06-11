@@ -10,27 +10,38 @@
           />
         </div>
       </div>
-
       <div class="row pb-5">
         <div class="col-12 dashboard-header text-light">
           <div class="boards">
             <div class="d-flex align-items-end">
-              <img class="d-inline profile-img p-1 m-1" :src="user.picture" alt="no profile image" />
-              <h5 class="p-2 m-2">Good morning {{user.name}}</h5>
+              <img
+                class="d-inline profile-img p-1 m-1"
+                :src="user.picture"
+                alt="no profile image"
+              />
+              <h5 class="p-2 m-2">{{ clock.message }} {{ user.name }}</h5>
               <p class="d-inline"></p>
             </div>
           </div>
+          <clock />
         </div>
       </div>
 
-      <div class="row py-4 pt-4 boards-card shadow">
-        <div class="col-11 m-auto">
-          <h3 class="text-primary m-1">Boards</h3>
-          <button @click="toggleNewBoardForm" title="Create new board" class="btn btn-success m-1">
+      <div class="row py-4 pt-4">
+        <div class="col-11 col-md-9 col-lg-8 m-auto p-2 m-auto">
+          <button class="btn btn-danger">Dont push this button....</button>
+          <button
+            @click="toggleNewBoardForm"
+            title="Create new board"
+            class="btn btn-success plus-btn m-1"
+          >
             <i class="fas fa-plus"></i>
           </button>
         </div>
-        <div v-if="showNewBordForm" class="col-11 m-auto p-1 fade-in">
+        <div
+          v-if="showNewBordForm"
+          class="col-11 col-md-9 col-lg-8 m-auto p-2 m-auto p-1 fade-in"
+        >
           <form class="pb-3" @submit.prevent="addBoard">
             <div class="p-2">
               <input
@@ -49,17 +60,28 @@
               />
               <br />
               <div class="text-center">
-                <button class="btn btn-success m-2" type="submit">Create</button>
-                <button @click="toggleNewBoardForm" class="btn btn-danger m-2">Cancel</button>
+                <button class="btn btn-success m-2" type="submit">
+                  Create
+                </button>
+                <button @click="toggleNewBoardForm" class="btn btn-danger m-2">
+                  Cancel
+                </button>
               </div>
             </div>
           </form>
         </div>
 
-        <div class="col-11 col-md-9 col-lg-8 m-auto p-2">
-          <div class="bg-warning p-1 m-2" v-for="board in boards" :key="board.id">
+        <div class="col-12 col-md-9 col-lg-8 m-auto p-2">
+          <div
+            class="board-card p-1 my-5 p-2"
+            v-for="board in boards"
+            :key="board.id"
+          >
             <div class="d-flex justify-content-between align-items-center">
-              <h5 class="w-100 m-1 p-1 action text-light">{{ board.title}}</h5>
+              <h3 class="w-100 m-1 p-1 action text-primary">
+                {{ board.title }}
+              </h3>
+              <small class="text-light">{{ board.creationDate }}</small>
               <!-- show and hide form for edit board name/description -->
               <i
                 @click="toggleEditBoardForm(board.id)"
@@ -72,15 +94,18 @@
                 class="fas fa-trash-alt text-danger px-1 mx-1 action"
               ></i>
             </div>
-            <div class="text-primary list-group-item d-flex justify-content-between w-100 mt-2">
-              <div class="action" @click="routeToBoard(board.id)">
+            <div
+              @click="routeToBoard(board.id)"
+              class="d-flex justify-content-between w-100 mt-2 action board-details-card"
+            >
+              <div class="action">
                 <p class="w-100 m-1 p-1 text-dark">{{ board.description }}</p>
               </div>
             </div>
             <!-- not finished yet edit pop up -->
             <div
               v-if="isEditBoardFormShowing && board.id == boardEdit"
-              class="edit-box shadow bg-warning"
+              class="board-details-card"
             >
               <div class="d-flex flex-column align-items-center">
                 <form @submit="editBoard(board.id)">
@@ -100,8 +125,15 @@
                     />
                   </div>
                   <div class="mt-2 pt-2">
-                    <button type="submit" class="m-2 btn btn-success">Save</button>
-                    <button @click="toggleEditBoardForm" class="m-2 btn btn-danger">Cancel</button>
+                    <button type="submit" class="m-2 btn btn-success">
+                      Save
+                    </button>
+                    <button
+                      @click="toggleEditBoardForm"
+                      class="m-2 btn btn-danger"
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </form>
               </div>
@@ -115,7 +147,11 @@
 </template>
 
 <script>
+import clock from "../components/clock";
 export default {
+  components: {
+    clock,
+  },
   name: "boards",
   mounted() {
     this.$store.dispatch("getBoards");
@@ -125,20 +161,21 @@ export default {
     return {
       newBoard: {
         title: "",
-        description: ""
+        description: "",
       },
       editForm: {},
       editBoardFormShowing: false,
-      boardEdit: null
+      boardEdit: null,
     };
   },
 
   computed: {
+    clock() {
+      return this.$store.state.clock;
+    },
     isEditBoardFormShowing() {
       if (this.boardEdit)
         return this.$store.state.showEditBoardForm[this.boardEdit];
-
-      // return this.$store.showEditBoardForm[this.boardsEdit.id];
     },
     showNewBordForm() {
       return this.$store.state.showNewBoardForm;
@@ -148,13 +185,13 @@ export default {
     },
     user() {
       return this.$store.state.user;
-    }
+    },
   },
   methods: {
     toggleEditBoardForm(boardId) {
       let data = {
         boardId: boardId,
-        update: !this.editBoardFormShowing
+        update: !this.editBoardFormShowing,
       };
       this.$store.dispatch("toggleEditBoardForm", data);
       this.boardEdit = boardId;
@@ -171,8 +208,8 @@ export default {
         boardId: id,
         update: {
           title: this.editForm.title,
-          description: this.editForm.description
-        }
+          description: this.editForm.description,
+        },
       };
 
       this.$store.dispatch("editBoard", data);
@@ -186,18 +223,20 @@ export default {
       this.$store.dispatch("addBoard", this.newBoard);
       this.newBoard = { title: "", description: "" };
       this.$store.dispatch("toggleNewBoardForm");
-    }
-  }
+    },
+  },
 };
 </script>
 
-
 <style>
+.board-details-card {
+  background: rgba(245, 240, 166, 0.75);
+}
 div .dashboard-header {
   z-index: 1;
   background: rgba(0, 0, 0, 0.75);
 }
-.boards-card {
+.board-card {
   background: rgba(0, 0, 0, 0.75);
   border-radius: 8px;
 }

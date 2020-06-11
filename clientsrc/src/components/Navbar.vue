@@ -2,6 +2,12 @@
   <div class="row sticky-top p-0">
     <div class="col-12 p-0">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img
+          class="p-1 m-1"
+          src="https://cdn.pixabay.com/photo/2016/03/31/19/14/check-box-1294836_960_720.png"
+          width="40"
+          alt
+        />
         <router-link class="navbar-brand" :to="{ name: 'boards' }">Kanban Kabana</router-link>
         <button
           class="navbar-toggler"
