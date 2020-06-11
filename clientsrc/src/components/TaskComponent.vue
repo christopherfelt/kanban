@@ -78,7 +78,11 @@
           <div class="text-center">
             <p class="m-0 p-0">Comments</p>
           </div>
-          <div class="text-center m-0 p-0" @click="openComments = true" v-if="!openComments">
+          <div
+            class="text-center m-0 p-0"
+            @click="openComments = true"
+            v-if="!openComments"
+          >
             <h3 class="p-0 m-0 text-info">
               <i class="action fas fa-arrow-circle-down action"></i>
             </h3>
@@ -90,10 +94,16 @@
             <form class="mt-2" @submit.prevent="addComment">
               <input class v-model="commentBody" type="text" />
               <br />
-              <button class="btn btn-outline-dark p-1 mt-2" type="submit">Post</button>
+              <button class="btn btn-outline-dark p-1 mt-2" type="submit">
+                Post
+              </button>
             </form>
             <ul class="list-group shadow p-1 my-3 bg-gray">
-              <comment v-for="comment in activeComments" :key="comment.id" :comment="comment" />
+              <comment
+                v-for="comment in activeComments"
+                :key="comment.id"
+                :comment="comment"
+              />
             </ul>
           </div>
         </div>
@@ -104,6 +114,7 @@
 
 <script>
 import Comment from "./CommentComponent.vue";
+import NotficationService from "../sweet";
 
 export default {
   name: "Task",
@@ -115,7 +126,7 @@ export default {
       listMoveChoiceVisible: false,
       openComments: false,
       commentBody: "",
-      taskEditForm: true
+      taskEditForm: true,
     };
   },
   props: ["task"],
@@ -125,7 +136,7 @@ export default {
     },
     activeLists() {
       return this.$store.state.activeLists;
-    }
+    },
   },
   methods: {
     moveTaskToNewList(newListId) {
@@ -134,7 +145,7 @@ export default {
         taskId: this.task.id,
         newListId: newListId,
         oldListId: this.task.listId,
-        taskData: { listId: newListId }
+        taskData: { listId: newListId },
       };
       this.$store.dispatch("moveTaskToNewList", data);
       this.listMoveChoiceVisible = false;
@@ -145,24 +156,30 @@ export default {
         taskId: this.task.id,
         listId: this.task.listId,
         boardId: this.task.boardId,
-        body: this.commentBody
+        body: this.commentBody,
       };
       this.$store.dispatch("addComment", data);
       this.commentBody = "";
     },
 
-    deleteTask() {
-      this.$store.dispatch("deleteTask", this.task);
+    async deleteTask() {
+      if (
+        await NotficationService.confirmAction(
+          "Are you sure you want to delete this task?"
+        )
+      ) {
+        this.$store.dispatch("deleteTask", this.task);
+      }
     },
 
     editTask() {
       this.$store.dispatch("editTask", this.task);
       this.taskEditForm = true;
-    }
+    },
   },
   components: {
-    Comment
-  }
+    Comment,
+  },
 };
 </script>
 

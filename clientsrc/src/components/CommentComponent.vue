@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import NotficationService from "../sweet";
 export default {
   name: "Comment",
   data() {
@@ -18,11 +19,17 @@ export default {
   props: ["comment"],
   computed: {},
   methods: {
-    deleteComment() {
-      this.$store.dispatch("deleteComment", this.comment);
-    }
+    async deleteComment() {
+      if (
+        await NotficationService.confirmAction(
+          "Are you sure you want to delete this comment?"
+        )
+      ) {
+        this.$store.dispatch("deleteComment", this.comment);
+      }
+    },
   },
-  components: {}
+  components: {},
 };
 </script>
 
