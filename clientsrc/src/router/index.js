@@ -28,9 +28,9 @@ export default new Router({
     },
 
     // last stop in the hallway //
-    {
-      path: "*",
-      redirect: "/",
-    },
+    // {
+    // path: "*",
+    // redirect: "/",
+    // },
   ],
 });

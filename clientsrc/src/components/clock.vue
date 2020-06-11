@@ -42,7 +42,7 @@ export default {
       }
       let h = hours > 12 ? hours - 12 : hours;
 
-      data.timeDisp = `${h}:${minutes > 10 ? minutes : minutes + "0"}${
+      data.timeDisp = `${h}:${minutes >= 10 ? minutes : minutes + "0"}${
         hours > 12 ? " pm" : " am"
       }`;
       data.message = message;

@@ -14,16 +14,14 @@
         <div class="col-12 dashboard-header text-light">
           <div class="boards">
             <div class="d-flex align-items-end">
-              <img
-                class="d-inline profile-img p-1 m-1"
-                :src="user.picture"
-                alt="no profile image"
-              />
+              <img class="d-inline profile-img p-1 m-1" :src="user.picture" alt="no profile image" />
               <h5 class="p-2 m-2">{{ clock.message }} {{ user.name }}</h5>
               <p class="d-inline"></p>
             </div>
           </div>
           <clock />
+
+          <Quote />
         </div>
       </div>
 
@@ -38,10 +36,7 @@
             <i class="fas fa-plus"></i>
           </button>
         </div>
-        <div
-          v-if="showNewBordForm"
-          class="col-11 col-md-9 col-lg-8 m-auto p-2 m-auto p-1 fade-in"
-        >
+        <div v-if="showNewBordForm" class="col-11 col-md-9 col-lg-8 m-auto p-2 m-auto p-1 fade-in">
           <form class="pb-3" @submit.prevent="addBoard">
             <div class="p-2">
               <input
@@ -60,27 +55,17 @@
               />
               <br />
               <div class="text-center">
-                <button class="btn btn-success m-2" type="submit">
-                  Create
-                </button>
-                <button @click="toggleNewBoardForm" class="btn btn-danger m-2">
-                  Cancel
-                </button>
+                <button class="btn btn-success m-2" type="submit">Create</button>
+                <button @click="toggleNewBoardForm" class="btn btn-danger m-2">Cancel</button>
               </div>
             </div>
           </form>
         </div>
 
         <div class="col-12 col-md-9 col-lg-8 m-auto p-2">
-          <div
-            class="board-card p-1 my-5 p-2"
-            v-for="board in boards"
-            :key="board.id"
-          >
+          <div class="board-card p-1 my-5 p-2" v-for="board in boards" :key="board.id">
             <div class="d-flex justify-content-between align-items-center">
-              <h3 class="w-100 m-1 p-1 action text-primary">
-                {{ board.title }}
-              </h3>
+              <h3 class="w-100 m-1 p-1 action text-primary">{{ board.title }}</h3>
               <small class="text-light">{{ board.creationDate }}</small>
               <!-- show and hide form for edit board name/description -->
               <i
@@ -94,19 +79,15 @@
                 class="fas fa-trash-alt text-danger px-1 mx-1 action"
               ></i>
             </div>
-            <div
-              @click="routeToBoard(board.id)"
-              class="d-flex justify-content-between w-100 mt-2 action board-details-card"
-            >
-              <div class="action">
-                <p class="w-100 m-1 p-1 text-dark">{{ board.description }}</p>
-              </div>
+            <div class="d-flex justify-content-between w-100 mt-2 action board-details-card">
+              <router-link class="nav-link" :to="{ name: 'board', params: { boardId: board.id } }">
+                <div class="action">
+                  <p class="w-100 m-1 p-1 text-dark">{{ board.description }}</p>
+                </div>
+              </router-link>
             </div>
             <!-- not finished yet edit pop up -->
-            <div
-              v-if="isEditBoardFormShowing && board.id == boardEdit"
-              class="board-details-card"
-            >
+            <div v-if="isEditBoardFormShowing && board.id == boardEdit" class="board-details-card">
               <div class="d-flex flex-column align-items-center">
                 <form @submit="editBoard(board.id)">
                   <div class="pt-2 mt-2">
@@ -125,15 +106,8 @@
                     />
                   </div>
                   <div class="mt-2 pt-2">
-                    <button type="submit" class="m-2 btn btn-success">
-                      Save
-                    </button>
-                    <button
-                      @click="toggleEditBoardForm"
-                      class="m-2 btn btn-danger"
-                    >
-                      Cancel
-                    </button>
+                    <button type="submit" class="m-2 btn btn-success">Save</button>
+                    <button @click="toggleEditBoardForm" class="m-2 btn btn-danger">Cancel</button>
                   </div>
                 </form>
               </div>
@@ -148,9 +122,11 @@
 
 <script>
 import clock from "../components/clock";
+import Quote from "../components/QuoteComponent";
 export default {
   components: {
     clock,
+    Quote
   },
   name: "boards",
   mounted() {
@@ -161,11 +137,11 @@ export default {
     return {
       newBoard: {
         title: "",
-        description: "",
+        description: ""
       },
       editForm: {},
       editBoardFormShowing: false,
-      boardEdit: null,
+      boardEdit: null
     };
   },
 
@@ -185,13 +161,13 @@ export default {
     },
     user() {
       return this.$store.state.user;
-    },
+    }
   },
   methods: {
     toggleEditBoardForm(boardId) {
       let data = {
         boardId: boardId,
-        update: !this.editBoardFormShowing,
+        update: !this.editBoardFormShowing
       };
       this.$store.dispatch("toggleEditBoardForm", data);
       this.boardEdit = boardId;
@@ -208,23 +184,23 @@ export default {
         boardId: id,
         update: {
           title: this.editForm.title,
-          description: this.editForm.description,
-        },
+          description: this.editForm.description
+        }
       };
 
       this.$store.dispatch("editBoard", data);
       this.toggleEditBoardForm();
     },
     //route user to the board page view by board id
-    routeToBoard(id) {
-      this.$router.push({ name: "board", params: { id: id } });
-    },
+    // routeToBoard(id) {
+    //   this.$router.push({ name: "board", params: { id: id } });
+    // },
     addBoard() {
       this.$store.dispatch("addBoard", this.newBoard);
       this.newBoard = { title: "", description: "" };
       this.$store.dispatch("toggleNewBoardForm");
-    },
-  },
+    }
+  }
 };
 </script>
 

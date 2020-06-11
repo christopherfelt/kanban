@@ -2,8 +2,14 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Axios from "axios";
 import router from "../router/index";
-
 Vue.use(Vuex);
+
+// api for getting quote
+// @ts-ignore
+const _quoteApi = Axios.create({
+  baseURL: "//bcw-sandbox.herokuapp.com/api/quotes",
+  timeout: 3000,
+});
 
 //Allows axios to work locally or live
 let base = window.location.host.includes("localhost")
@@ -33,8 +39,12 @@ export default new Vuex.Store({
     showNewTaskForm: [],
     showEditTaskForm: false,
     // NOT IMPLEMENTED YET
+    quote: "",
   },
   mutations: {
+    setQuote(state, quote) {
+      state.quote = quote;
+    },
     updateClock(state, data) {
       state.clock = data;
     },
@@ -73,9 +83,14 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    //#region clock section
+    //#region utilities section
     updateClock({ commit, dispatch }, data) {
       commit("updateClock", data);
+    },
+    setQuote({ commit, dispatch }) {
+      _quoteApi.get("").then((res) => {
+        commit("setQuote", res.data.quote);
+      });
     },
     //#endregion
     //#region -- AUTH STUFF --
