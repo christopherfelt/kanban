@@ -9,6 +9,20 @@
         />
       </div>
     </div>
+    <div class="col-12">
+      <form @submit.prevent="addAsCollaborator">
+        <input
+          v-model="collaboratorForm"
+          type="text"
+          name=""
+          id=""
+          placeholder="e-mail"
+        />
+        <button class="btn btn-info">
+          add collaborator
+        </button>
+      </form>
+    </div>
     <div class="row">
       <div class="col-12 p-0">
         <div class="d-flex justify-content-between dashboard-header">
@@ -28,7 +42,10 @@
               </form>
             </div>
             <div>
-              <button @click="toggleCreateListForm" class="btn plus-btn btn-success">
+              <button
+                @click="toggleCreateListForm"
+                class="btn plus-btn btn-success"
+              >
                 <i title="add list" class="fas fa-plus"></i>
               </button>
             </div>
@@ -52,7 +69,8 @@ export default {
 
   data() {
     return {
-      newList: {}
+      collaboratorForm: "",
+      newList: {},
     };
   },
   name: "board",
@@ -66,9 +84,16 @@ export default {
     },
     activeLists() {
       return this.$store.state.activeLists;
-    }
+    },
   },
   methods: {
+    addAsCollaborator() {
+      let data = {
+        eMail: this.collaboratorForm,
+        boardId: this.activeBoard.id,
+      };
+      this.$store.dispatch("addCollaborator", data);
+    },
     toggleCreateListForm() {
       this.$store.dispatch("toggleCreateListForm");
     },
@@ -77,14 +102,14 @@ export default {
         boardId: this.activeBoard.id,
         title: this.newList.title,
         body: this.newList.body,
-        color: "#2255aa"
+        color: "#2255aa",
       };
       this.$store.dispatch("createList", data);
-    }
+    },
   },
   components: {
-    ListComponent
-  }
+    ListComponent,
+  },
 };
 </script>
 

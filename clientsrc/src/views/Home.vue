@@ -18,17 +18,24 @@
               <hr />
             </div>
             <p class="p-1 m-1">
-              If you need to get a team ready for a project you have come to the right place. We are all about keeping
-              the endless stream of todos in order.
+              If you need to get a team ready for a project you have come to the
+              right place. We are all about keeping the endless stream of todos
+              in order.
             </p>
 
             <div class="p-relative d-flex justify-content-center p-3">
-              <button class="btn btn-primary btn-lg push-down shadow" @click="login">Get Started</button>
+              <button
+                class="btn btn-primary btn-lg push-down shadow"
+                @click="login"
+              >
+                Get Started
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="col-12"></div>
   </div>
 </template>
 
@@ -38,29 +45,30 @@ import Boards from "./Boards.vue";
 
 let _api = axios.create({
   baseURL: "https://localhost:3000",
-  withCredentials: true
+  withCredentials: true,
 });
 export default {
+  data() {
+    return {};
+  },
   name: "Navbar",
   methods: {
     async login() {
       await this.$auth.loginWithPopup();
       this.$store.dispatch("setBearer", this.$auth.bearer);
       this.$store.dispatch("getProfile");
-      // console.log("this.$auth.user: ");
-      // console.log(this.$auth.user);
     },
     async logout() {
       await this.$auth.logout({ returnTo: window.location.origin });
-    }
+    },
   },
   components: {
-    Boards
-  }
+    Boards,
+  },
 };
 </script>
 
-<style >
+<style>
 .action {
   transition: 0.4s;
   cursor: pointer;

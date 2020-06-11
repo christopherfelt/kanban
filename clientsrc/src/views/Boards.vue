@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="row pb-5">
-        <div class="col-12 dashboard-header text-light">
+        <div class="col-12 dashboard-header text-light ">
           <div class="boards">
             <div class="d-flex align-items-end">
               <img
@@ -24,18 +24,18 @@
             </div>
           </div>
           <clock />
-
           <Quote />
         </div>
       </div>
 
-      <div class="row py-4 pt-4">
-        <div class="col-11 col-md-9 col-lg-8 m-auto p-2 m-auto">
-          <button class="btn btn-danger">Dont push this button....</button>
+      <div class="row py-0 mt-0">
+        <div class="col-11 col-md-9 col-lg-8 m-auto p-0 m-auto">
+          <div class="d-inline "></div>
           <button
+            data-v-step="1"
             @click="toggleNewBoardForm"
             title="Create new board"
-            class="btn btn-success plus-btn m-1"
+            class="btn btn-success plus-btn mt-1 d-inline"
           >
             <i class="fas fa-plus"></i>
           </button>
@@ -76,7 +76,7 @@
         <div class="col-12 col-md-9 col-lg-8 m-auto p-2">
           <div
             class="board-card p-1 my-5 p-2"
-            v-for="board in boards"
+            v-for="(board, index) in boards"
             :key="board.id"
           >
             <div class="d-flex justify-content-between align-items-center">
@@ -103,6 +103,7 @@
                 class="nav-link"
                 :to="{ name: 'board', params: { boardId: board.id } }"
               >
+                <div v-if="index == 0" data-v-step="2"></div>
                 <div class="action">
                   <p class="w-100 m-1 p-1 text-dark">{{ board.description }}</p>
                 </div>
@@ -149,6 +150,7 @@
         </div>
       </div>
     </div>
+    <v-tour name="myTour" :steps="steps" :options="myOptions"></v-tour>
   </div>
 </template>
 
@@ -157,14 +159,15 @@ import clock from "../components/clock";
 import Quote from "../components/QuoteComponent";
 import NotficationService from "../sweet";
 export default {
+  mounted() {
+    this.$store.dispatch("getBoards");
+    this.$tours["myTour"].start();
+  },
   components: {
     clock,
     Quote,
   },
   name: "boards",
-  mounted() {
-    this.$store.dispatch("getBoards");
-  },
 
   data() {
     return {
@@ -175,6 +178,31 @@ export default {
       editForm: {},
       editBoardFormShowing: false,
       boardEdit: null,
+      myOptions: {
+        useKeyboardNavigation: false,
+        labels: {
+          buttonSkip: "Wing it",
+          buttonPrevious: "Previous",
+          buttonNext: "Next",
+          buttonStop: "Got it!",
+        },
+      },
+      steps: [
+        {
+          target: '[data-v-step="1"]',
+          content: "Start a new board",
+          params: {
+            placement: "top",
+          },
+        },
+        {
+          target: '[data-v-step="2"]',
+          content: "Click your board details to go to your board",
+          params: {
+            placement: "top",
+          },
+        },
+      ],
     };
   },
 

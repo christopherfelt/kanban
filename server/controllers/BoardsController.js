@@ -38,6 +38,7 @@ export class BoardsController extends BaseController {
   async create(req, res, next) {
     try {
       req.body.creatorEmail = req.userInfo.email;
+      req.body.collaborators = [req.userInfo.email];
       let data = await boardService.create(req.body);
       return res.status(201).send(data);
     } catch (error) {
@@ -46,6 +47,8 @@ export class BoardsController extends BaseController {
   }
 
   async edit(req, res, next) {
+    console.log("controller " + req.body);
+
     try {
       let data = await boardService.edit(
         req.params.id,

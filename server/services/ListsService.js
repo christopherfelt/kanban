@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext";
 import { BadRequest } from "../utils/Errors";
+import { boardService } from "./BoardService";
 
 class ListsService {
   async getByBoardId(query = {}) {
@@ -24,6 +25,7 @@ class ListsService {
   }
 
   async create(rawData) {
+    await boardService.getById(rawData.boardId, rawData.creatorEmail);
     let data = await dbContext.Lists.create(rawData);
     return data;
   }
