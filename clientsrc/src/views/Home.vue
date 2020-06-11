@@ -137,10 +137,12 @@ export default {
   height: 50px;
   width: 50px;
   border-radius: 50%;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.52);
 }
 .plus-btn-sm {
   height: 30px;
   width: 30px;
   border-radius: 50%;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.671);
 }
 </style>
