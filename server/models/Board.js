@@ -1,20 +1,23 @@
-import mongoose from "mongoose"
-let Schema = mongoose.Schema
-let ObjectId = Schema.Types.ObjectId
+import mongoose from "mongoose";
+let Schema = mongoose.Schema;
+let ObjectId = Schema.Types.ObjectId;
 
-const Board = new Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  creatorEmail: { type: String, required: true }
-}, { timestamps: true, toJSON: { virtuals: true } })
-
-Board.virtual("creator",
+const Board = new Schema(
   {
-    localField: "creatorEmail",
-    ref: "Profile",
-    foreignField: "email",
-    justOne: true
-  })
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    creatorEmail: { type: String, required: true },
+    collaborators: [{ type: String }],
+  },
+  { timestamps: true, toJSON: { virtuals: true } }
+);
+
+Board.virtual("creator", {
+  localField: "creatorEmail",
+  ref: "Profile",
+  foreignField: "email",
+  justOne: true,
+});
 
 //CASCADE ON DELETE
 // Board.pre('findOneAndRemove', function (next) {
@@ -26,4 +29,4 @@ Board.virtual("creator",
 //     .catch(err => next(err))
 // })
 
-export default Board
+export default Board;
