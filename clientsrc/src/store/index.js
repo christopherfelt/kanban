@@ -19,6 +19,7 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
+    clock: {},
     boards: [],
     activeBoard: {},
     activeLists: [],
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     // NOT IMPLEMENTED YET
   },
   mutations: {
+    updateClock(state, data) {
+      state.clock = data;
+    },
     showNewTaskForm(state, data) {
       Vue.set(state.showNewTaskForm, data.listId, data.update);
     },
@@ -69,6 +73,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    //#region clock section
+    updateClock({ commit, dispatch }, data) {
+      commit("updateClock", data);
+    },
+    //#endregion
     //#region -- AUTH STUFF --
     setBearer({}, bearer) {
       api.defaults.headers.authorization = bearer;

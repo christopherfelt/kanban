@@ -70,12 +70,12 @@ export default {
 }
 .img-full {
   z-index: -1;
-  overflow: hidden;
   padding: 0px;
   margin: 0px;
-  min-width: 100%;
-  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
 }
+
 .push-up {
   position: absolute;
 }
