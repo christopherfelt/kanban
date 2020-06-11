@@ -1,48 +1,50 @@
 <template>
   <div class="col-12 col-sm-6 col-md-4 col-lg-3 p-0 m-0">
-    <div class="bg-light shadow p-1 m-1">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-inline">
-          <h4 v-if="isEditTaskTitleShowing">{{ list.title }}</h4>
-          <form v-else @submit.prevent="editList">
-            <input v-model="listForm.title" type="text" :placeholder="list.title" />
-          </form>
-        </div>
-
-        <div class="p-1 m-1">
-          <i
-            @click="isEditTaskTitleShowing = !isEditTaskTitleShowing"
-            class="fa fa-pencil text-light text-dark mx-1 action"
-          ></i>
-          <i @click="deleteList" class="fa fa-trash-alt text-danger action"></i>
-        </div>
-      </div>
-      <div>
-        <!-- <input v-model="listForm.title" type="text" placeholder="edit list name" /> -->
-      </div>
-      <ul class="list-group">
-        <task v-for="task in activeTasks" :key="task.id" :task="task" />
-      </ul>
-      <div class="p-1 m-1">
-        <div class="d-flex justify-content-center align-items-start btn btn-success plus-btn-sm">
-          <i @click="toggleNewTaskForm" class="fas fa-plus"></i>
-        </div>
-        <!-- -->
-        <div class>
-          <div class="p-relative" v-if="showNewTaskForm">
-            <form @submit.prevent="addTask">
-              <input
-                class="p-absolute slide-right"
-                v-model="taskData.body"
-                type="text"
-                placeholder="new task...."
-              />
+    <div class="bg-dark m-1 p-1">
+      <div class="bg-light shadow p-1">
+        <div class="d-flex bg-light justify-content-between align-items-center">
+          <div class="d-inline">
+            <h4 v-if="isEditTaskTitleShowing">{{ list.title }}</h4>
+            <form v-else @submit.prevent="editList">
+              <input v-model="listForm.title" type="text" :placeholder="list.title" />
             </form>
           </div>
-        </div>
-      </div>
 
-      <!--  -->
+          <div class="p-1 m-1">
+            <i
+              @click="isEditTaskTitleShowing = !isEditTaskTitleShowing"
+              class="fa fa-pencil text-light text-dark mx-1 action"
+            ></i>
+            <i @click="deleteList" class="fa fa-trash-alt text-danger action"></i>
+          </div>
+        </div>
+        <div>
+          <!-- <input v-model="listForm.title" type="text" placeholder="edit list name" /> -->
+        </div>
+        <ul class="list-group">
+          <task v-for="task in activeTasks" :key="task.id" :task="task" />
+        </ul>
+        <div class="p-1 m-1">
+          <div class="d-flex justify-content-center align-items-start btn btn-success plus-btn-sm">
+            <i @click="toggleNewTaskForm" class="fas fa-plus"></i>
+          </div>
+          <!-- -->
+          <div class>
+            <div class="p-relative" v-if="showNewTaskForm">
+              <form @submit.prevent="addTask">
+                <input
+                  class="p-absolute slide-right"
+                  v-model="taskData.body"
+                  type="text"
+                  placeholder="new task...."
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!--  -->
+      </div>
     </div>
   </div>
 </template>
