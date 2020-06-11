@@ -6,7 +6,11 @@
           <div class="d-inline">
             <h4 v-if="isEditTaskTitleShowing">{{ list.title }}</h4>
             <form v-else @submit.prevent="editList">
-              <input v-model="listForm.title" type="text" :placeholder="list.title" />
+              <input
+                v-model="listForm.title"
+                type="text"
+                :placeholder="list.title"
+              />
             </form>
           </div>
 
@@ -15,7 +19,10 @@
               @click="isEditTaskTitleShowing = !isEditTaskTitleShowing"
               class="fa fa-pencil text-light text-dark mx-1 action"
             ></i>
-            <i @click="deleteList" class="fa fa-trash-alt text-danger action"></i>
+            <i
+              @click="deleteList"
+              class="fa fa-trash-alt text-danger action"
+            ></i>
           </div>
         </div>
         <div>
@@ -25,7 +32,9 @@
           <task v-for="task in activeTasks" :key="task.id" :task="task" />
         </ul>
         <div class="p-1 m-1">
-          <div class="d-flex justify-content-center align-items-start btn btn-success plus-btn-sm">
+          <div
+            class="d-flex justify-content-center align-items-start btn btn-success plus-btn-sm"
+          >
             <i @click="toggleNewTaskForm" class="fas fa-plus"></i>
           </div>
           <!-- -->
@@ -51,13 +60,14 @@
 
 <script>
 import Task from "./TaskComponent.vue";
+import NotficationService from "../sweet";
 export default {
   data() {
     return {
       taskData: {},
       listForm: {},
       isTaskFormShowing: false,
-      isEditTaskTitleShowing: true
+      isEditTaskTitleShowing: true,
     };
   },
   mounted() {
@@ -71,35 +81,41 @@ export default {
     },
     activeTasks() {
       return this.$store.state.activeTasks[this.list.id];
-    }
+    },
   },
   props: ["list"],
   components: {
-    Task
+    Task,
   },
   methods: {
     toggleNewTaskForm() {
       this.isTaskFormShowing = !this.isTaskFormShowing;
       let data = {
         listId: this.list.id,
-        update: this.isTaskFormShowing
+        update: this.isTaskFormShowing,
       };
       this.$store.dispatch("showNewTaskForm", data);
     },
-    deleteList() {
-      let data = {
-        listId: this.list.id,
-        boardId: this.list.boardId
-      };
-      this.$store.dispatch("deleteList", data);
+    async deleteList() {
+      if (
+        await NotficationService.confirmAction(
+          "Are you sure you want to delete this list?"
+        )
+      ) {
+        let data = {
+          listId: this.list.id,
+          boardId: this.list.boardId,
+        };
+        this.$store.dispatch("deleteList", data);
+      }
     },
     editList() {
       let data = {
         boardId: this.list.boardId,
         listId: this.list.id,
         update: {
-          title: this.listForm.title
-        }
+          title: this.listForm.title,
+        },
       };
       console.log("editing: " + data.update.title);
 
@@ -110,12 +126,12 @@ export default {
       let data = {
         listId: this.list.id,
         boardId: this.list.boardId,
-        body: this.taskData.body
+        body: this.taskData.body,
       };
       this.$store.dispatch("addTask", data);
       this.toggleNewTaskForm();
-    }
-  }
+    },
+  },
 };
 </script>
 
