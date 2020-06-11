@@ -6,9 +6,8 @@
     <div class>
       <div class="d-flex justify-content-between align-items-center">
         <div class>
-          <input class="pr-1 mr-1" type="checkbox" />
-          <div class v-if="taskEditForm">
-            <p class>{{ task.body }}</p>
+          <div class="p-0 m-0" v-if="taskEditForm">
+            <p class="p-0 m-0">{{ task.body }}</p>
           </div>
           <div class v-else>
             <form class @submit.prevent="editTask">
@@ -17,11 +16,13 @@
           </div>
         </div>
         <div class>
-          <h3
+          <p
             title="details/edit"
-            class="pointer p-0 m-0"
+            class="pointer p-0 m-0 dots"
             @click="listMoveChoiceVisible = !listMoveChoiceVisible"
-          >...</h3>
+          >
+            <i class="fas fa-ellipsis-h"></i>
+          </p>
         </div>
       </div>
     </div>
@@ -166,6 +167,11 @@ export default {
 </script>
 
 <style scoped>
+.dots {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+}
 .task:hover {
   background-color: lightyellow;
 }
