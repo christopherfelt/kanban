@@ -35,11 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
-      <!--  -->
-
-      <!--  -->
-    </div>
+    <div class="col-12"></div>
   </div>
 </template>
 
@@ -52,30 +48,8 @@ let _api = axios.create({
   withCredentials: true,
 });
 export default {
-  mounted() {
-    // this.$tours["myTour"].start();
-  },
   data() {
-    return {
-      steps: [
-        {
-          target: "#v-step-0", // We're using document.querySelector() under the hood
-          content: `Discover <strong>Vue Tour</strong>!`,
-        },
-        {
-          target: ".v-step-1",
-          content: "An awesome plugin made with Vue.js!",
-        },
-        {
-          target: '[data-v-step="2"]',
-          content:
-            "Try it, you'll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.",
-          params: {
-            placement: "top",
-          },
-        },
-      ],
-    };
+    return {};
   },
   name: "Navbar",
   methods: {
@@ -83,8 +57,6 @@ export default {
       await this.$auth.loginWithPopup();
       this.$store.dispatch("setBearer", this.$auth.bearer);
       this.$store.dispatch("getProfile");
-      // console.log("this.$auth.user: ");
-      // console.log(this.$auth.user);
     },
     async logout() {
       await this.$auth.logout({ returnTo: window.location.origin });

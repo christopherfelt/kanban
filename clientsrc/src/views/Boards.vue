@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="row pb-5">
-        <div class="col-12 dashboard-header text-light">
+        <div class="col-12 dashboard-header text-light ">
           <div class="boards">
             <div class="d-flex align-items-end">
               <img
@@ -24,29 +24,21 @@
             </div>
           </div>
           <clock />
-
           <Quote />
         </div>
       </div>
 
-      <div class="row py-4 pt-4">
-        <div class="col-11 col-md-9 col-lg-8 m-auto p-2 m-auto">
+      <div class="row py-0 mt-0">
+        <div class="col-11 col-md-9 col-lg-8 m-auto p-0 m-auto">
+          <div class="d-inline "></div>
           <button
             data-v-step="1"
             @click="toggleNewBoardForm"
             title="Create new board"
-            class="btn btn-success plus-btn m-1"
+            class="btn btn-success plus-btn mt-1 d-inline"
           >
             <i class="fas fa-plus"></i>
           </button>
-
-          <!--         <div data-v-step="2">
-          A DOM element on your page. The third and final step will pop on this
-          element because its ID is 'v-step-2'.
-        </div>
-
-        <v-tour name="myTour" :steps="steps"></v-tour>
-      </div> -->
         </div>
         <div
           v-if="showNewBordForm"
@@ -84,7 +76,7 @@
         <div class="col-12 col-md-9 col-lg-8 m-auto p-2">
           <div
             class="board-card p-1 my-5 p-2"
-            v-for="board in boards"
+            v-for="(board, index) in boards"
             :key="board.id"
           >
             <div class="d-flex justify-content-between align-items-center">
@@ -111,6 +103,7 @@
                 class="nav-link"
                 :to="{ name: 'board', params: { boardId: board.id } }"
               >
+                <div v-if="index == 0" data-v-step="2"></div>
                 <div class="action">
                   <p class="w-100 m-1 p-1 text-dark">{{ board.description }}</p>
                 </div>
@@ -191,7 +184,7 @@ export default {
           buttonSkip: "Wing it",
           buttonPrevious: "Previous",
           buttonNext: "Next",
-          buttonStop: "Geter done",
+          buttonStop: "Got it!",
         },
       },
       steps: [
@@ -199,7 +192,14 @@ export default {
           target: '[data-v-step="1"]',
           content: "Start a new board",
           params: {
-            placement: "right",
+            placement: "top",
+          },
+        },
+        {
+          target: '[data-v-step="2"]',
+          content: "Click your board details to go to your board",
+          params: {
+            placement: "top",
           },
         },
       ],
