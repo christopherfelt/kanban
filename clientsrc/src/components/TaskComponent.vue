@@ -3,32 +3,30 @@
     class="task list-group-item bg-secondary m-2 mt-2 shadow"
     :class="{ opened: listMoveChoiceVisible }"
   >
-    <div class="">
+    <div class>
       <div class="d-flex justify-content-between align-items-center">
-        <div class="">
-          <input class=" pr-1 mr-1 " type="checkbox" />
-          <div class="" v-if="taskEditForm">
-            <p class="">{{ task.body }}</p>
+        <div class>
+          <input class="pr-1 mr-1" type="checkbox" />
+          <div class v-if="taskEditForm">
+            <p class>{{ task.body }}</p>
           </div>
-          <div class="" v-else>
-            <form class="" @submit.prevent="editTask">
-              <input class="" type="text" v-model="task.body" />
+          <div class v-else>
+            <form class @submit.prevent="editTask">
+              <input class type="text" v-model="task.body" />
             </form>
           </div>
         </div>
-        <div class="">
+        <div class>
           <h3
             title="details/edit"
-            class="  pointer p-0 m-0 "
+            class="pointer p-0 m-0"
             @click="listMoveChoiceVisible = !listMoveChoiceVisible"
-          >
-            ...
-          </h3>
+          >...</h3>
         </div>
       </div>
     </div>
     <div class="border-top mt-3 text-dark" v-if="listMoveChoiceVisible">
-      <div class="row bg-light ">
+      <div class="row bg-light">
         <div class="col-6">
           <Small>Move To:</Small>
           <ul class="list-group">
@@ -71,40 +69,30 @@
               <button class="btn btn-primary">P</button>
               <button class="btn btn-primary">P</button>
             </div>
-          </div> -->
+          </div>-->
         </div>
       </div>
-      <div class=" row bg-light pt-2 text-dark">
+      <div class="row bg-light pt-2 text-dark">
         <div class="col-12 m-0 p-0 mt-2">
           <div class="text-center">
             <p class="m-0 p-0">Comments</p>
           </div>
-          <div
-            class="text-center m-0 p-0 "
-            @click="openComments = true"
-            v-if="!openComments"
-          >
-            <h3 class="p-0 m-0  text-info">
+          <div class="text-center m-0 p-0" @click="openComments = true" v-if="!openComments">
+            <h3 class="p-0 m-0 text-info">
               <i class="action fas fa-arrow-circle-down action"></i>
             </h3>
           </div>
           <div v-else class="d-block text-center bg-light">
-            <h3 class=" text-info" @click="openComments = false">
+            <h3 class="text-info" @click="openComments = false">
               <i class="action fas fa-arrow-circle-up"></i>
             </h3>
             <form class="mt-2" @submit.prevent="addComment">
-              <input class="" v-model="commentBody" type="text" />
+              <input class v-model="commentBody" type="text" />
               <br />
-              <button class="btn btn-outline-dark p-1 mt-2" type="submit">
-                Post
-              </button>
+              <button class="btn btn-outline-dark p-1 mt-2" type="submit">Post</button>
             </form>
             <ul class="list-group shadow p-1 my-3 bg-gray">
-              <comment
-                v-for="comment in activeComments"
-                :key="comment.id"
-                :comment="comment"
-              />
+              <comment v-for="comment in activeComments" :key="comment.id" :comment="comment" />
             </ul>
           </div>
         </div>
@@ -126,7 +114,7 @@ export default {
       listMoveChoiceVisible: false,
       openComments: false,
       commentBody: "",
-      taskEditForm: true,
+      taskEditForm: true
     };
   },
   props: ["task"],
@@ -136,7 +124,7 @@ export default {
     },
     activeLists() {
       return this.$store.state.activeLists;
-    },
+    }
   },
   methods: {
     moveTaskToNewList(newListId) {
@@ -145,7 +133,7 @@ export default {
         taskId: this.task.id,
         newListId: newListId,
         oldListId: this.task.listId,
-        taskData: { listId: newListId },
+        taskData: { listId: newListId }
       };
       this.$store.dispatch("moveTaskToNewList", data);
       this.listMoveChoiceVisible = false;
@@ -156,7 +144,7 @@ export default {
         taskId: this.task.id,
         listId: this.task.listId,
         boardId: this.task.boardId,
-        body: this.commentBody,
+        body: this.commentBody
       };
       this.$store.dispatch("addComment", data);
       this.commentBody = "";
@@ -169,11 +157,11 @@ export default {
     editTask() {
       this.$store.dispatch("editTask", this.task);
       this.taskEditForm = true;
-    },
+    }
   },
   components: {
-    Comment,
-  },
+    Comment
+  }
 };
 </script>
 
@@ -207,6 +195,8 @@ export default {
   background-color: rgba(126, 126, 126, 0.452);
 }
 .bg-gray {
-  background: grey;
+  background: rgb(235, 233, 233);
+  border-radius: 6px;
+  padding: 0.5rem;
 }
 </style>
