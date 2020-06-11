@@ -18,16 +18,27 @@
               <hr />
             </div>
             <p class="p-1 m-1">
-              If you need to get a team ready for a project you have come to the right place. We are all about keeping
-              the endless stream of todos in order.
+              If you need to get a team ready for a project you have come to the
+              right place. We are all about keeping the endless stream of todos
+              in order.
             </p>
 
             <div class="p-relative d-flex justify-content-center p-3">
-              <button class="btn btn-primary btn-lg push-down shadow" @click="login">Get Started</button>
+              <button
+                class="btn btn-primary btn-lg push-down shadow"
+                @click="login"
+              >
+                Get Started
+              </button>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="col-12">
+      <!--  -->
+
+      <!--  -->
     </div>
   </div>
 </template>
@@ -38,9 +49,34 @@ import Boards from "./Boards.vue";
 
 let _api = axios.create({
   baseURL: "https://localhost:3000",
-  withCredentials: true
+  withCredentials: true,
 });
 export default {
+  mounted() {
+    // this.$tours["myTour"].start();
+  },
+  data() {
+    return {
+      steps: [
+        {
+          target: "#v-step-0", // We're using document.querySelector() under the hood
+          content: `Discover <strong>Vue Tour</strong>!`,
+        },
+        {
+          target: ".v-step-1",
+          content: "An awesome plugin made with Vue.js!",
+        },
+        {
+          target: '[data-v-step="2"]',
+          content:
+            "Try it, you'll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.",
+          params: {
+            placement: "top",
+          },
+        },
+      ],
+    };
+  },
   name: "Navbar",
   methods: {
     async login() {
@@ -52,15 +88,15 @@ export default {
     },
     async logout() {
       await this.$auth.logout({ returnTo: window.location.origin });
-    }
+    },
   },
   components: {
-    Boards
-  }
+    Boards,
+  },
 };
 </script>
 
-<style >
+<style>
 .action {
   transition: 0.4s;
   cursor: pointer;

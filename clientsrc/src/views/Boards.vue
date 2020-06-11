@@ -31,14 +31,22 @@
 
       <div class="row py-4 pt-4">
         <div class="col-11 col-md-9 col-lg-8 m-auto p-2 m-auto">
-          <button class="btn btn-danger">Dont push this button....</button>
           <button
+            data-v-step="1"
             @click="toggleNewBoardForm"
             title="Create new board"
             class="btn btn-success plus-btn m-1"
           >
             <i class="fas fa-plus"></i>
           </button>
+
+          <!--         <div data-v-step="2">
+          A DOM element on your page. The third and final step will pop on this
+          element because its ID is 'v-step-2'.
+        </div>
+
+        <v-tour name="myTour" :steps="steps"></v-tour>
+      </div> -->
         </div>
         <div
           v-if="showNewBordForm"
@@ -149,6 +157,7 @@
         </div>
       </div>
     </div>
+    <v-tour name="myTour" :steps="steps" :options="myOptions"></v-tour>
   </div>
 </template>
 
@@ -157,14 +166,15 @@ import clock from "../components/clock";
 import Quote from "../components/QuoteComponent";
 import NotficationService from "../sweet";
 export default {
+  mounted() {
+    this.$store.dispatch("getBoards");
+    this.$tours["myTour"].start();
+  },
   components: {
     clock,
     Quote,
   },
   name: "boards",
-  mounted() {
-    this.$store.dispatch("getBoards");
-  },
 
   data() {
     return {
@@ -175,6 +185,24 @@ export default {
       editForm: {},
       editBoardFormShowing: false,
       boardEdit: null,
+      myOptions: {
+        useKeyboardNavigation: false,
+        labels: {
+          buttonSkip: "Wing it",
+          buttonPrevious: "Previous",
+          buttonNext: "Next",
+          buttonStop: "Geter done",
+        },
+      },
+      steps: [
+        {
+          target: '[data-v-step="1"]',
+          content: "Start a new board",
+          params: {
+            placement: "right",
+          },
+        },
+      ],
     };
   },
 
