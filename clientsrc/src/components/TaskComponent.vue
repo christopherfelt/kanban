@@ -1,25 +1,34 @@
 <template>
-  <li class="task list-group-item" :class="{ opened: listMoveChoiceVisible }">
-    <div class="position-relative">
-      <div v-if="taskEditForm">
-        {{ task.body }}
-      </div>
-      <div v-else>
-        <form @submit.prevent="editTask">
-          <input type="text" v-model="task.body" />
-        </form>
-      </div>
-      <div>
-        <h3
-          class="position-absolute option-button pointer"
-          @click="listMoveChoiceVisible = !listMoveChoiceVisible"
-        >
-          ...
-        </h3>
+  <li
+    class="task list-group-item bg-secondary m-2 mt-2 shadow"
+    :class="{ opened: listMoveChoiceVisible }"
+  >
+    <div class="">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="">
+          <input class=" pr-1 mr-1 " type="checkbox" />
+          <div class="" v-if="taskEditForm">
+            <p class="">{{ task.body }}</p>
+          </div>
+          <div class="" v-else>
+            <form class="" @submit.prevent="editTask">
+              <input class="" type="text" v-model="task.body" />
+            </form>
+          </div>
+        </div>
+        <div class="">
+          <h3
+            title="details/edit"
+            class="  pointer p-0 m-0 "
+            @click="listMoveChoiceVisible = !listMoveChoiceVisible"
+          >
+            ...
+          </h3>
+        </div>
       </div>
     </div>
-    <div class="border-top mt-2" v-if="listMoveChoiceVisible">
-      <div class="row ">
+    <div class="border-top mt-3 text-dark" v-if="listMoveChoiceVisible">
+      <div class="row bg-light ">
         <div class="col-6">
           <Small>Move To:</Small>
           <ul class="list-group">
@@ -65,27 +74,32 @@
           </div> -->
         </div>
       </div>
-      <div class=" row ">
-        <div class="col-12 mt-2">
+      <div class=" row bg-light pt-2 text-dark">
+        <div class="col-12 m-0 p-0 mt-2">
           <div class="text-center">
-            <h6>Comments</h6>
+            <p class="m-0 p-0">Comments</p>
           </div>
           <div
-            class="text-center"
+            class="text-center m-0 p-0 "
             @click="openComments = true"
             v-if="!openComments"
           >
-            <h6>...</h6>
+            <h3 class="p-0 m-0  text-info">
+              <i class="action fas fa-arrow-circle-down action"></i>
+            </h3>
           </div>
-          <div v-else class="d-block text-center">
-            <small class="pointer" @click="openComments = false"
-              >Collapse</small
-            >
+          <div v-else class="d-block text-center bg-light">
+            <h3 class=" text-info" @click="openComments = false">
+              <i class="action fas fa-arrow-circle-up"></i>
+            </h3>
             <form class="mt-2" @submit.prevent="addComment">
-              <input v-model="commentBody" type="text" />
-              <button class="btn btn-primary" type="submit">+</button>
+              <input class="" v-model="commentBody" type="text" />
+              <br />
+              <button class="btn btn-outline-dark p-1 mt-2" type="submit">
+                Post
+              </button>
             </form>
-            <ul class="list-group mt-2">
+            <ul class="list-group shadow p-1 my-3 bg-gray">
               <comment
                 v-for="comment in activeComments"
                 :key="comment.id"
@@ -190,6 +204,9 @@ export default {
 }
 
 .move-options:hover {
-  background-color: pink;
+  background-color: rgba(126, 126, 126, 0.452);
+}
+.bg-gray {
+  background: grey;
 }
 </style>

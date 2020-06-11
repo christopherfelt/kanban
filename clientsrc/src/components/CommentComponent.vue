@@ -1,5 +1,5 @@
 <template>
-  <li class="comment list-group-item p-0 options">
+  <li class="comment list-group-item mt-1 p-1 options bg-light ">
     <small>{{ comment.body }}</small>
     <i
       class="fa fa-trash-alt fa-xs text-danger mx-2 action float-right mt-2 pointer"
@@ -27,13 +27,16 @@ export default {
 </script>
 
 <style scoped>
+.comment {
+  border-radius: 6px;
+}
 .pointer {
   cursor: pointer;
 }
 .options {
-  background-color: white;
+  background-color: rgb(255, 0, 0);
 }
 .options:hover {
-  background-color: #5ecaae;
+  background-color: #bebebe;
 }
 </style>

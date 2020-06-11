@@ -6,7 +6,10 @@
           <h4>{{ list.title }}</h4>
         </div>
         <div class="p-1">
-          <i @click="editList" class="fa fa-pencil text-light text-dark mx-1 action"></i>
+          <i
+            @click="editList"
+            class="fa fa-pencil text-light text-dark mx-1 action"
+          ></i>
           <i @click="deleteList" class="fa fa-trash-alt text-danger action"></i>
         </div>
       </div>
@@ -17,7 +20,9 @@
         <task v-for="task in activeTasks" :key="task.id" :task="task" />
       </ul>
       <div class="p-1 m-1">
-        <div class="d-flex justify-content-center align-items-start btn btn-success plus-btn-sm">
+        <div
+          class="d-flex justify-content-center align-items-start btn btn-success plus-btn-sm"
+        >
           <i @click="toggleNewTaskForm" class="fas fa-plus"></i>
         </div>
         <!-- -->
@@ -47,7 +52,7 @@ export default {
     return {
       taskData: {},
       listForm: {},
-      isTaskFormShowing: false
+      isTaskFormShowing: false,
     };
   },
   mounted() {
@@ -61,25 +66,25 @@ export default {
     },
     activeTasks() {
       return this.$store.state.activeTasks[this.list.id];
-    }
+    },
   },
   props: ["list"],
   components: {
-    Task
+    Task,
   },
   methods: {
     toggleNewTaskForm() {
       this.isTaskFormShowing = !this.isTaskFormShowing;
       let data = {
         listId: this.list.id,
-        update: this.isTaskFormShowing
+        update: this.isTaskFormShowing,
       };
       this.$store.dispatch("showNewTaskForm", data);
     },
     deleteList() {
       let data = {
         listId: this.list.id,
-        boardId: this.list.boardId
+        boardId: this.list.boardId,
       };
       this.$store.dispatch("deleteList", data);
     },
@@ -88,8 +93,8 @@ export default {
         boardId: this.list.boardId,
         listId: this.list.id,
         update: {
-          title: this.listForm.title
-        }
+          title: this.listForm.title,
+        },
       };
       this.$store.dispatch("editList", data);
     },
@@ -97,12 +102,12 @@ export default {
       let data = {
         listId: this.list.id,
         boardId: this.list.boardId,
-        body: this.taskData.body
+        body: this.taskData.body,
       };
       this.$store.dispatch("addTask", data);
       this.toggleNewTaskForm();
-    }
-  }
+    },
+  },
 };
 </script>
 
