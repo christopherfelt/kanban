@@ -39,6 +39,15 @@ class BoardService {
     return data;
   }
 
+  async addCollaborator(id, userEmail, body) {
+    console.log("add colab", body);
+    return await dbContext.Boards.findOneAndUpdate(
+      { _id: id },
+      { $addToSet: { collaborators: body.eMail } },
+      { new: true }
+    );
+  }
+
   async delete(id, userEmail) {
     let data = await dbContext.Boards.findOneAndRemove({
       _id: id,
