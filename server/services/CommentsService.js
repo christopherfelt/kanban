@@ -2,10 +2,9 @@ import { dbContext } from "../db/DbContext";
 import { BadRequest } from "../utils/Errors";
 
 class CommentsService {
-  async getCommentsByTaskId(taskId, userEmail) {
+  async getCommentsByTaskId(taskId) {
     let data = await dbContext.Comments.find({
       taskId: taskId,
-      creatorEmail: userEmail,
     });
     if (!data) {
       throw new BadRequest("Invalid ID or you do own this task");

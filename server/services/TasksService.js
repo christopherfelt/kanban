@@ -2,10 +2,9 @@ import { dbContext } from "../db/DbContext";
 import { BadRequest } from "../utils/Errors";
 
 class TasksService {
-  async getTasksByListId(listId, userEmail) {
+  async getTasksByListId(listId) {
     let data = await dbContext.Tasks.find({
       listId: listId,
-      creatorEmail: userEmail,
     });
     if (!data) {
       throw new BadRequest("Invalid ID or you do not own this list");
@@ -20,10 +19,9 @@ class TasksService {
     );
   }
 
-  async getById(id, userEmail) {
+  async getById(id) {
     let data = await dbContext.Tasks.findOne({
       _id: id,
-      creatorEmail: userEmail,
     });
     if (!data) {
       throw new BadRequest("Invalid ID or you do not own this board");

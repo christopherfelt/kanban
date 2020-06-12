@@ -3,6 +3,7 @@ import BaseController from "../utils/BaseController";
 import auth0provider from "@bcwdev/auth0provider";
 import { listsService } from "../services/ListsService";
 import { tasksService } from "../services/TasksService";
+import { boardService } from "../services/BoardService";
 
 //PUBLIC
 export class ListsController extends BaseController {
@@ -21,7 +22,10 @@ export class ListsController extends BaseController {
   async getByBoardId(req, res, next) {
     try {
       let data = await listsService.getByBoardId(req.query);
-      console.log(data);
+      await boardService.checkForCollaboration(
+        data[0].boardId,
+        req.userInfo.email
+      );
       res.send(data);
     } catch (err) {
       console.error(err);
@@ -48,8 +52,10 @@ export class ListsController extends BaseController {
 
   async getTasksByListId(req, res, next) {
     try {
-      let data = await tasksService.getTasksByListId(
-        req.params.id,
+      let data = await tasksService.getTasksByListId(req.params.id);
+      // this line below checks to see if the person requesting the tasks is a collaborator
+      await boardService.checkForCollaboration(
+        data[0].boardId,
         req.userInfo.email
       );
       return res.send(data);
