@@ -20,6 +20,19 @@ class BoardService {
     return data;
   }
 
+  async checkForCollaboration(id, userEmail) {
+    let data = await dbContext.Boards.findOne({
+      _id: id,
+      collaborators: userEmail,
+    });
+    if (!data) {
+      throw new BadRequest(
+        "Invalid ID or you are not a collaborator on this board"
+      );
+    }
+    return data;
+  }
+
   async create(rawData) {
     let data = await dbContext.Boards.create(rawData);
     return data;
